@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Podcast Preview Demo</title>
+  <style>
+    /* Reset & Body */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Grid Container */
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1fr; /* Mobile default */
+    }
+
+    /* Tablet */
+    @media (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Podcast Preview Demo</h1>
+
+  <div class="grid">
+    <podcast-preview
+      title="Tech Talks Daily"
+      image="https://picsum.photos/400/300?1"
+      genres="Technology, Business"
+      seasons="5"
+      updated="2026-01-15">
+    </podcast-preview>
+
+    <podcast-preview
+      title="History Explained"
+      image="https://picsum.photos/400/300?2"
+      genres="History"
+      seasons="3"
+      updated="2025-11-20">
+    </podcast-preview>
+
+    <podcast-preview
+      title="Health Matters"
+      image="https://picsum.photos/400/300?3"
+      genres="Health"
+      seasons="4"
+      updated="2026-02-01">
+    </podcast-preview>
+
+    <podcast-preview
+      title="Startup Stories"
+      image="https://picsum.photos/400/300?4"
+      genres="Business"
+      seasons="6"
+      updated="2025-09-12">
+    </podcast-preview>
+
+    <podcast-preview
+      title="True Crime Weekly"
+      image="https://picsum.photos/400/300?5"
+      genres="Crime"
+      seasons="8"
+      updated="2026-01-30">
+    </podcast-preview>
+
+    <podcast-preview
+      title="Science Simplified"
+      image="https://picsum.photos/400/300?6"
+      genres="Science"
+      seasons="2"
+      updated="2025-12-05">
+    </podcast-preview>
+
+    <podcast-preview
+      title="Daily Motivation"
+      image="https://picsum.photos/400/300?7"
+      genres="Self-Improvement"
+      seasons="7"
+      updated="2026-02-10">
+    </podcast-preview>
+
+    <podcast-preview
+      title="Movie Breakdown"
+      image="https://picsum.photos/400/300?8"
+      genres="Entertainment"
+      seasons="5"
+      updated="2025-10-18">
+    </podcast-preview>
+  </div>
+
+  <script type="module" src="./PodcastPreview.js"></script>
+
+ <script>
+  const modal = document.createElement("div");
+
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100%";
+  modal.style.height = "100%";
+  modal.style.background = "rgba(0,0,0,0.6)";
+  modal.style.display = "none";
+  modal.style.alignItems = "center";
+  modal.style.justifyContent = "center";
+
+  modal.innerHTML = `
+    <div id="modal-content" style="
+      background: white;
+      padding: 20px;
+      max-width: 400px;
+      width: 90%;
+      border-radius: 10px;
+      text-align: center;
+    ">
+      <img id="modal-image" style="width:100%; border-radius:10px;" />
+      <h2 id="modal-title"></h2>
+      <p id="modal-genres"></p>
+      <p id="modal-seasons"></p>
+      <p id="modal-updated"></p>
+      <button id="close-modal" style="
+        margin-top: 10px;
+        padding: 8px 15px;
+        border: none;
+        background: black;
+        color: white;
+        cursor: pointer;
+      ">Close</button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  document.addEventListener("podcast-selected", (event) => {
+    const data = event.detail;
+
+    document.getElementById("modal-image").src = data.image;
+    document.getElementById("modal-title").textContent = data.title;
+    document.getElementById("modal-genres").textContent = "Genres: " + data.genres;
+    document.getElementById("modal-seasons").textContent = "Seasons: " + data.seasons;
+    document.getElementById("modal-updated").textContent = "Updated: " + data.updated;
+
+    modal.style.display = "flex";
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target.id === "close-modal" || e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+</script>
+
+</body>
+</html>
